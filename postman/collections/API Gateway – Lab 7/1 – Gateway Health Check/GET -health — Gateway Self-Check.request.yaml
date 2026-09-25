@@ -1,0 +1,8 @@
+$kind: http-request
+name: GET /health — Gateway Self-Check
+description: |-
+  Expected: 200 OK with gateway metadata and service URL config.
+  This endpoint is served by the gateway itself — no proxying.
+url: "{{gatewayUrl}}/health"
+method: GET
+order: 1000

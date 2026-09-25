@@ -1,0 +1,6 @@
+$kind: http-request
+name: GET /users/:id — Invalid ID (404 via Gateway)
+description: "Expected: 404 Not Found — gateway proxies the 404 from user-service"
+url: "{{gatewayUrl}}/users/000000000000000000000000"
+method: GET
+order: 7000

@@ -1,0 +1,10 @@
+$kind: collection
+description: |-
+  CampusConnect Microservices Lab 6 — User, Product & Order services with inter-service communication testing.
+
+  Student ID: 202512053
+  Course: Web Services & SOA Laboratory
+variables:
+  userId: REPLACE_WITH_ACTUAL_USER_ID
+  productId: REPLACE_WITH_ACTUAL_PRODUCT_ID
+  orderId: REPLACE_WITH_ACTUAL_ORDER_ID

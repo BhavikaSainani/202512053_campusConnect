@@ -1,0 +1,16 @@
+$kind: http-request
+description: Performs full update on student record.
+url: http://localhost:3001/students/REPLACE_WITH_STUDENT_ID
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Bhavika Sainani Updated",
+      "email": "bhavika.updated@example.com",
+      "course": "Data Science & AI",
+      "semester": 4
+    }
+order: 6000

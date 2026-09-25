@@ -1,0 +1,17 @@
+$kind: http-request
+name: PUT /products/:id — Update Product (via Gateway)
+url: "{{gatewayUrl}}/products/{{productId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Campus Notebook (Premium)",
+      "description": "300-page premium ruled notebook",
+      "price": 180,
+      "category": "stationery",
+      "stock": 30
+    }
+order: 5000

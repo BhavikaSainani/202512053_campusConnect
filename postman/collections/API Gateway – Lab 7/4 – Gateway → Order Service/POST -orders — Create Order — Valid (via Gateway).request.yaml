@@ -1,0 +1,19 @@
+$kind: http-request
+name: POST /orders — Create Order — Valid (via Gateway)
+description: |-
+  Gateway proxies POST /orders → order-service:3003/orders
+  Order service validates user & product via internal service calls.
+  Expected: 201 Created with enriched order data.
+url: "{{gatewayUrl}}/orders"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "userId": "{{userId}}",
+      "productId": "{{productId}}",
+      "quantity": 3
+    }
+order: 2000

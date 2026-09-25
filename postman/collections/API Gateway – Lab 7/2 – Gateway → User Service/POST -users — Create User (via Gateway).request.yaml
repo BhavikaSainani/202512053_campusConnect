@@ -1,0 +1,20 @@
+$kind: http-request
+name: POST /users — Create User (via Gateway)
+description: |-
+  Gateway proxies POST /users → user-service:3001/users
+  Expected: 201 Created
+  Copy the returned 'id' field into the {{userId}} collection variable.
+url: "{{gatewayUrl}}/users"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Bhavika Sainani",
+      "email": "bhavika@daiict.ac.in",
+      "phone": "9876543210",
+      "role": "student"
+    }
+order: 2000

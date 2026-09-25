@@ -1,0 +1,5 @@
+$kind: http-request
+description: Deletes the student record from MongoDB container.
+url: http://localhost:3001/students/REPLACE_WITH_STUDENT_ID
+method: DELETE
+order: 8000

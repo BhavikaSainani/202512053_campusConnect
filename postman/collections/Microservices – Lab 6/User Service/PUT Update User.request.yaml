@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:3001/users/{{userId}}
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Bhavika Sainani (Updated)",
+      "email": "bhavika.updated@daiict.ac.in",
+      "phone": "9876543211",
+      "role": "admin"
+    }
+order: 6000

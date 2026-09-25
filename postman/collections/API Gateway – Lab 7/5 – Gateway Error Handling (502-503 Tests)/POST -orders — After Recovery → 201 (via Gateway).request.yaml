@@ -1,0 +1,18 @@
+$kind: http-request
+name: POST /orders — After Recovery → 201 (via Gateway)
+description: |-
+  Run this AFTER restarting user-service with: docker start user-service
+  Expected: 201 Created — recovery confirmed.
+url: "{{gatewayUrl}}/orders"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "userId": "{{userId}}",
+      "productId": "{{productId}}",
+      "quantity": 2
+    }
+order: 3000

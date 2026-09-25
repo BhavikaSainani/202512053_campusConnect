@@ -1,0 +1,409 @@
+{
+  "info": {
+    "name": "API Gateway – Lab 7",
+    "description": "CampusConnect Lab 7 — API Gateway, Service Discovery & Cloud Deployment\n\nStudent ID: 202512053\nCourse: Web Services & SOA Laboratory\n\nAll requests go through the API Gateway on port 8080.\nThe gateway proxies to User (:3001), Product (:3002), and Order (:3003) services.\nMicroservices are NOT directly reachable from outside the Docker network.\n\nTesting sections:\n  1. Gateway Health Check\n  2. Gateway → User Service routes\n  3. Gateway → Product Service routes\n  4. Gateway → Order Service routes\n  5. Error handling: 502/503 on unreachable service\n  6. (Cloud) Re-run against public URL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1 – Gateway Health Check",
+      "item": [
+        {
+          "name": "GET /health — Gateway Self-Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/health",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Expected: 200 OK with gateway metadata and service URL config.\nThis endpoint is served by the gateway itself — no proxying."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 – Gateway → User Service",
+      "item": [
+        {
+          "name": "GET /users — All Users (via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/users",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users"]
+            },
+            "description": "Gateway proxies GET /users → user-service:3001/users\nExpected: 200 OK with array of users"
+          }
+        },
+        {
+          "name": "POST /users — Create User (via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Bhavika Sainani\",\n  \"email\": \"bhavika@daiict.ac.in\",\n  \"phone\": \"9876543210\",\n  \"role\": \"student\"\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/users",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users"]
+            },
+            "description": "Gateway proxies POST /users → user-service:3001/users\nExpected: 201 Created\nCopy the returned 'id' field into the {{userId}} collection variable."
+          }
+        },
+        {
+          "name": "POST /users — Create User 2 (via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Arjun Patel\",\n  \"email\": \"arjun@daiict.ac.in\",\n  \"phone\": \"9123456780\",\n  \"role\": \"student\"\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/users",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "GET /users/:id — Get User by ID (via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/users/{{userId}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "PUT /users/:id — Update User (via Gateway)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Bhavika Sainani (Updated)\",\n  \"email\": \"bhavika.updated@daiict.ac.in\",\n  \"phone\": \"9876543211\",\n  \"role\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/users/{{userId}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /users/:id — Delete User (via Gateway)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/users/{{userId}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET /users/:id — Invalid ID (404 via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/users/000000000000000000000000",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users", "000000000000000000000000"]
+            },
+            "description": "Expected: 404 Not Found — gateway proxies the 404 from user-service"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 – Gateway → Product Service",
+      "item": [
+        {
+          "name": "GET /products — All Products (via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/products",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "POST /products — Create Product (via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Campus Notebook\",\n  \"description\": \"200-page ruled notebook for lecture notes\",\n  \"price\": 120,\n  \"category\": \"stationery\",\n  \"stock\": 50\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/products",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["products"]
+            },
+            "description": "Gateway proxies POST /products → product-service:3002/products\nExpected: 201 Created\nCopy the returned 'id' field into the {{productId}} collection variable."
+          }
+        },
+        {
+          "name": "POST /products — Create Product 2 (via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Scientific Calculator\",\n  \"description\": \"Casio FX-991EX advanced scientific calculator\",\n  \"price\": 1350,\n  \"category\": \"electronics\",\n  \"stock\": 25\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/products",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "GET /products/:id — Get Product by ID (via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/products/{{productId}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          }
+        },
+        {
+          "name": "PUT /products/:id — Update Product (via Gateway)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Campus Notebook (Premium)\",\n  \"description\": \"300-page premium ruled notebook\",\n  \"price\": 180,\n  \"category\": \"stationery\",\n  \"stock\": 30\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/products/{{productId}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /products/:id — Delete Product (via Gateway)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/products/{{productId}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          }
+        },
+        {
+          "name": "GET /products/:id — Invalid ID (404 via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/products/000000000000000000000000",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["products", "000000000000000000000000"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 – Gateway → Order Service",
+      "item": [
+        {
+          "name": "GET /orders — All Orders (via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/orders",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["orders"]
+            }
+          }
+        },
+        {
+          "name": "POST /orders — Create Order — Valid (via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/orders",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Gateway proxies POST /orders → order-service:3003/orders\nOrder service validates user & product via internal service calls.\nExpected: 201 Created with enriched order data."
+          }
+        },
+        {
+          "name": "GET /orders/:id — Get Order by ID (via Gateway)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/orders/{{orderId}}",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["orders", "{{orderId}}"]
+            }
+          }
+        },
+        {
+          "name": "POST /orders — Invalid User ID (404 via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"000000000000000000000000\",\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/orders",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Expected: 404 Not Found — user does not exist"
+          }
+        },
+        {
+          "name": "POST /orders — Invalid Product ID (404 via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"productId\": \"000000000000000000000000\",\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/orders",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["orders"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 – Gateway Error Handling (502/503 Tests)",
+      "item": [
+        {
+          "name": "POST /orders — User Service Down → 503 (via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/orders",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "BEFORE running: stop the user-service container.\n  docker stop user-service\n\nExpected: Order service returns 503 (user-service unreachable).\nThe gateway proxies this 503 cleanly to the client.\n\nAFTER testing: restart the user-service.\n  docker start user-service"
+          }
+        },
+        {
+          "name": "GET /users — User Service Down → Gateway 503",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gatewayUrl}}/users",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["users"]
+            },
+            "description": "BEFORE running: stop the user-service container.\n  docker stop user-service\n\nExpected: Gateway returns 503 Service Unavailable (cannot reach user-service).\nThis demonstrates the gateway's centralised error handling."
+          }
+        },
+        {
+          "name": "POST /orders — After Recovery → 201 (via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"productId\": \"{{productId}}\",\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{gatewayUrl}}/orders",
+              "host": ["{{gatewayUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Run this AFTER restarting user-service with: docker start user-service\nExpected: 201 Created — recovery confirmed."
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "gatewayUrl",
+      "value": "http://localhost:8080",
+      "description": "API Gateway base URL. Change to your cloud public URL for Part C testing (e.g. https://campusconnect-gateway.onrender.com)",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "REPLACE_WITH_ACTUAL_USER_ID",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "REPLACE_WITH_ACTUAL_PRODUCT_ID",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "REPLACE_WITH_ACTUAL_ORDER_ID",
+      "type": "string"
+    }
+  ]
+}

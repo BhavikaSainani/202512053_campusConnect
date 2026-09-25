@@ -1,0 +1,5 @@
+$kind: http-request
+description: Fetches all students from the containerized MongoDB database.
+url: http://localhost:3001/students
+method: GET
+order: 2000

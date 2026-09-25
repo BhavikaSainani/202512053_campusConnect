@@ -1,0 +1,21 @@
+$kind: http-request
+name: POST /products — Create Product (via Gateway)
+description: |-
+  Gateway proxies POST /products → product-service:3002/products
+  Expected: 201 Created
+  Copy the returned 'id' field into the {{productId}} collection variable.
+url: "{{gatewayUrl}}/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Campus Notebook",
+      "description": "200-page ruled notebook for lecture notes",
+      "price": 120,
+      "category": "stationery",
+      "stock": 50
+    }
+order: 2000

@@ -1,0 +1,16 @@
+$kind: http-request
+description: Verifies unique email constraint handling inside the container.
+url: http://localhost:3001/students
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Duplicate Student",
+      "email": "bhavika@example.com",
+      "course": "Information Technology",
+      "semester": 3
+    }
+order: 4000

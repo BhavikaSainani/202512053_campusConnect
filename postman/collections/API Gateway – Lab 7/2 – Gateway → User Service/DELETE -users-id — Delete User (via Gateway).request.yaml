@@ -1,0 +1,5 @@
+$kind: http-request
+name: DELETE /users/:id — Delete User (via Gateway)
+url: "{{gatewayUrl}}/users/{{userId}}"
+method: DELETE
+order: 6000

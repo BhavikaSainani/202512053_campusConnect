@@ -1,0 +1,16 @@
+$kind: http-request
+name: POST /users — Create User 2 (via Gateway)
+url: "{{gatewayUrl}}/users"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Arjun Patel",
+      "email": "arjun@daiict.ac.in",
+      "phone": "9123456780",
+      "role": "student"
+    }
+order: 3000

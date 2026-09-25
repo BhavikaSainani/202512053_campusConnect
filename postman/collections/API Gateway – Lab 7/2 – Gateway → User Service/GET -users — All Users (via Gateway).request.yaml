@@ -1,0 +1,8 @@
+$kind: http-request
+name: GET /users — All Users (via Gateway)
+description: |-
+  Gateway proxies GET /users → user-service:3001/users
+  Expected: 200 OK with array of users
+url: "{{gatewayUrl}}/users"
+method: GET
+order: 1000

@@ -1,0 +1,24 @@
+$kind: http-request
+name: POST /orders — User Service Down → 503 (via Gateway)
+description: |-
+  BEFORE running: stop the user-service container.
+    docker stop user-service
+
+  Expected: Order service returns 503 (user-service unreachable).
+  The gateway proxies this 503 cleanly to the client.
+
+  AFTER testing: restart the user-service.
+    docker start user-service
+url: "{{gatewayUrl}}/orders"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "userId": "{{userId}}",
+      "productId": "{{productId}}",
+      "quantity": 1
+    }
+order: 1000

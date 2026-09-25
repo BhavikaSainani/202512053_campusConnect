@@ -1,0 +1,5 @@
+$kind: http-request
+name: GET /products — All Products (via Gateway)
+url: "{{gatewayUrl}}/products"
+method: GET
+order: 1000

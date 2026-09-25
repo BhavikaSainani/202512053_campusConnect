@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:3001/users
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Bhavika Sainani",
+      "email": "bhavika@daiict.ac.in",
+      "phone": "9876543210",
+      "role": "student"
+    }
+order: 3000

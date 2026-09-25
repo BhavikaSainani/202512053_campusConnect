@@ -1,0 +1,15 @@
+$kind: http-request
+name: POST /orders — Invalid Product ID (404 via Gateway)
+url: "{{gatewayUrl}}/orders"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "userId": "{{userId}}",
+      "productId": "000000000000000000000000",
+      "quantity": 1
+    }
+order: 5000

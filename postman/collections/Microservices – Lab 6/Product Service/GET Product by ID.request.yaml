@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3002/products/{{productId}}
+method: GET
+order: 5000

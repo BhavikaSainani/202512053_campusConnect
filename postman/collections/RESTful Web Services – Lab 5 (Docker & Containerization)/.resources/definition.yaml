@@ -1,0 +1,4 @@
+$kind: collection
+description: |-
+  Postman Collection for Lab 5 — Dockerizing the Student REST API and MongoDB Environment.
+  Tests all REST endpoints against the containerized Express API running on port 3001, verifying Docker network connectivity to MongoDB and Docker volume persistence.

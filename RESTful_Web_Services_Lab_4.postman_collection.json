@@ -1,0 +1,190 @@
+{
+  "info": {
+    "_postman_id": "lab4-full-stack-rest-mongodb",
+    "name": "RESTful Web Services – Lab 4 (MongoDB Atlas)",
+    "description": "Postman Collection for Lab 4 — Full-Stack Client & Database Integration.\nTests all 5 CRUD operations against Express.js backed by MongoDB Atlas (port 3001), including unique email constraint, 400 validation, 404 not found, and persistence-after-restart verification.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. GET all students (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Fetches all students from MongoDB Atlas. Expected: 200 OK with JSON array."
+      }
+    },
+    {
+      "name": "2. POST create student (201 Created)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Bhavika Sainani\",\n  \"email\": \"bhavika@example.com\",\n  \"course\": \"Computer Science\",\n  \"semester\": 3\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Creates a new student document in MongoDB Atlas. Expected: 201 Created with saved student object including id."
+      }
+    },
+    {
+      "name": "3. POST duplicate email - Constraint (400 Bad Request)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Another Student\",\n  \"email\": \"bhavika@example.com\",\n  \"course\": \"Information Technology\",\n  \"semester\": 3\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Tests database unique email constraint. Expected: 400 Bad Request with 'A student with this email already exists'."
+      }
+    },
+    {
+      "name": "4. POST invalid body (400 Bad Request)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"\",\n  \"email\": \"not-an-email\",\n  \"course\": \"\",\n  \"semester\": -1\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Validation failure check. Expected: 400 Bad Request with validation error message."
+      }
+    },
+    {
+      "name": "5. GET student by ID (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students/{{student_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "{{student_id}}"]
+        },
+        "description": "Fetches a specific student document by ID from MongoDB Atlas. Expected: 200 OK."
+      }
+    },
+    {
+      "name": "6. GET nonexistent student ID (404 Not Found)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students/64b1f2e3d4c5b6a789012345",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "64b1f2e3d4c5b6a789012345"]
+        },
+        "description": "Expected: 404 Not Found with JSON error 'Student with ID ... not found'."
+      }
+    },
+    {
+      "name": "7. PUT update student (200 OK)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Bhavika Sainani\",\n  \"email\": \"bhavika.updated@example.com\",\n  \"course\": \"Software Engineering\",\n  \"semester\": 4\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students/{{student_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "{{student_id}}"]
+        },
+        "description": "Full update of a student record. Expected: 200 OK with updated student document."
+      }
+    },
+    {
+      "name": "8. PATCH partial update student (200 OK)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"semester\": 5\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students/{{student_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "{{student_id}}"]
+        },
+        "description": "Partial update of a student record. Expected: 200 OK."
+      }
+    },
+    {
+      "name": "9. DELETE student (200 OK)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students/{{student_id}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "{{student_id}}"]
+        },
+        "description": "Deletes a student document from MongoDB Atlas. Expected: 200 OK."
+      }
+    },
+    {
+      "name": "10. Proof of Persistence - GET all students after restart (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Proof of persistence: After creating a student and restarting the Express server, this request verifies the data persists in MongoDB Atlas."
+      }
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+$kind: http-request
+name: GET /orders/:id — Get Order by ID (via Gateway)
+url: "{{gatewayUrl}}/orders/{{orderId}}"
+method: GET
+order: 3000

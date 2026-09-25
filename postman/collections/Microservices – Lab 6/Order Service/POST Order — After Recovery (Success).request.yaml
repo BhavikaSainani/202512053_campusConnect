@@ -1,0 +1,17 @@
+$kind: http-request
+description: |-
+  Run this request AFTER restarting User Service with: docker start user-service
+  Expected result: 201 Created (recovery verified)
+url: http://localhost:3003/orders
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "userId": "{{userId}}",
+      "productId": "{{productId}}",
+      "quantity": 2
+    }
+order: 8000

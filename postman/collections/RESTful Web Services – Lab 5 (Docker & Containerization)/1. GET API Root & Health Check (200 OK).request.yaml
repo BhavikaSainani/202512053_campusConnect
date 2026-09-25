@@ -1,0 +1,5 @@
+$kind: http-request
+description: Verifies that the Student API container is up and running.
+url: http://localhost:3001/
+method: GET
+order: 1000

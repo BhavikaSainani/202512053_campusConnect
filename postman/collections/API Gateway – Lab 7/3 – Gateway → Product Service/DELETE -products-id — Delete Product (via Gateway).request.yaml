@@ -1,0 +1,5 @@
+$kind: http-request
+name: DELETE /products/:id — Delete Product (via Gateway)
+url: "{{gatewayUrl}}/products/{{productId}}"
+method: DELETE
+order: 6000

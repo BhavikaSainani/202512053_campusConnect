@@ -1,0 +1,13 @@
+$kind: http-request
+description: Performs partial update (patch) on student record.
+url: http://localhost:3001/students/REPLACE_WITH_STUDENT_ID
+method: PATCH
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "semester": 5
+    }
+order: 7000

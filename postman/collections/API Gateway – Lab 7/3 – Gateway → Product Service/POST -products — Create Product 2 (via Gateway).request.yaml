@@ -1,0 +1,17 @@
+$kind: http-request
+name: POST /products — Create Product 2 (via Gateway)
+url: "{{gatewayUrl}}/products"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Scientific Calculator",
+      "description": "Casio FX-991EX advanced scientific calculator",
+      "price": 1350,
+      "category": "electronics",
+      "stock": 25
+    }
+order: 3000

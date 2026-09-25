@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:3001/users
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Arjun Patel",
+      "email": "arjun@daiict.ac.in",
+      "phone": "9123456780",
+      "role": "student"
+    }
+order: 4000

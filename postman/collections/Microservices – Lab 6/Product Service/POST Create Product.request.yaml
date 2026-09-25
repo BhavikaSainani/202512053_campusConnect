@@ -1,0 +1,16 @@
+$kind: http-request
+url: http://localhost:3002/products
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Campus Notebook",
+      "description": "200-page ruled notebook for lecture notes",
+      "price": 120,
+      "category": "stationery",
+      "stock": 50
+    }
+order: 3000

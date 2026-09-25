@@ -1,0 +1,23 @@
+$kind: collection
+description: |-
+  CampusConnect Lab 7 — API Gateway, Service Discovery & Cloud Deployment
+
+  Student ID: 202512053
+  Course: Web Services & SOA Laboratory
+
+  All requests go through the API Gateway on port 8080.
+  The gateway proxies to User (:3001), Product (:3002), and Order (:3003) services.
+  Microservices are NOT directly reachable from outside the Docker network.
+
+  Testing sections:
+    1. Gateway Health Check
+    2. Gateway → User Service routes
+    3. Gateway → Product Service routes
+    4. Gateway → Order Service routes
+    5. Error handling: 502/503 on unreachable service
+    6. (Cloud) Re-run against public URL
+variables:
+  gatewayUrl: http://localhost:8080
+  userId: REPLACE_WITH_ACTUAL_USER_ID
+  productId: REPLACE_WITH_ACTUAL_PRODUCT_ID
+  orderId: REPLACE_WITH_ACTUAL_ORDER_ID

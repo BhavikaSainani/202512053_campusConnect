@@ -1,0 +1,166 @@
+{
+  "info": {
+    "_postman_id": "lab5-containerized-student-api",
+    "name": "RESTful Web Services – Lab 5 (Docker & Containerization)",
+    "description": "Postman Collection for Lab 5 — Dockerizing the Student REST API and MongoDB Environment.\nTests all REST endpoints against the containerized Express API running on port 3001, verifying Docker network connectivity to MongoDB and Docker volume persistence.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. GET API Root & Health Check (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": [""]
+        },
+        "description": "Verifies that the Student API container is up and running."
+      }
+    },
+    {
+      "name": "2. GET all students (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Fetches all students from the containerized MongoDB database."
+      }
+    },
+    {
+      "name": "3. POST create student (201 Created)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Bhavika Sainani\",\n  \"email\": \"bhavika@example.com\",\n  \"course\": \"Computer Science\",\n  \"semester\": 3\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Creates a new student document in the MongoDB container."
+      }
+    },
+    {
+      "name": "4. POST duplicate email - Constraint (400 Bad Request)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Duplicate Student\",\n  \"email\": \"bhavika@example.com\",\n  \"course\": \"Information Technology\",\n  \"semester\": 3\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students"]
+        },
+        "description": "Verifies unique email constraint handling inside the container."
+      }
+    },
+    {
+      "name": "5. GET student by ID (200 OK)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students/REPLACE_WITH_STUDENT_ID",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "REPLACE_WITH_STUDENT_ID"]
+        },
+        "description": "Fetches a single student document by ID from MongoDB container."
+      }
+    },
+    {
+      "name": "6. PUT update student (200 OK)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Bhavika Sainani Updated\",\n  \"email\": \"bhavika.updated@example.com\",\n  \"course\": \"Data Science & AI\",\n  \"semester\": 4\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students/REPLACE_WITH_STUDENT_ID",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "REPLACE_WITH_STUDENT_ID"]
+        },
+        "description": "Performs full update on student record."
+      }
+    },
+    {
+      "name": "7. PATCH partial update student (200 OK)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"semester\": 5\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3001/students/REPLACE_WITH_STUDENT_ID",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "REPLACE_WITH_STUDENT_ID"]
+        },
+        "description": "Performs partial update (patch) on student record."
+      }
+    },
+    {
+      "name": "8. DELETE student (200 OK)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3001/students/REPLACE_WITH_STUDENT_ID",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3001",
+          "path": ["students", "REPLACE_WITH_STUDENT_ID"]
+        },
+        "description": "Deletes the student record from MongoDB container."
+      }
+    }
+  ]
+}

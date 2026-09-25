@@ -1,0 +1,5 @@
+$kind: http-request
+name: GET /products/:id — Invalid ID (404 via Gateway)
+url: "{{gatewayUrl}}/products/000000000000000000000000"
+method: GET
+order: 7000

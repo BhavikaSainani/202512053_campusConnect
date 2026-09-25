@@ -1,0 +1,18 @@
+$kind: http-request
+description: |-
+  Run this request AFTER stopping User Service with: docker stop user-service
+  Expected result: 503 Service Unavailable
+  Restart with: docker start user-service
+url: http://localhost:3003/orders
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "userId": "{{userId}}",
+      "productId": "{{productId}}",
+      "quantity": 1
+    }
+order: 7000

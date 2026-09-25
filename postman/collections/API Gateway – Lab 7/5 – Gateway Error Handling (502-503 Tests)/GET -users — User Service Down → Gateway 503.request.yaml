@@ -1,0 +1,11 @@
+$kind: http-request
+name: GET /users — User Service Down → Gateway 503
+description: |-
+  BEFORE running: stop the user-service container.
+    docker stop user-service
+
+  Expected: Gateway returns 503 Service Unavailable (cannot reach user-service).
+  This demonstrates the gateway's centralised error handling.
+url: "{{gatewayUrl}}/users"
+method: GET
+order: 2000

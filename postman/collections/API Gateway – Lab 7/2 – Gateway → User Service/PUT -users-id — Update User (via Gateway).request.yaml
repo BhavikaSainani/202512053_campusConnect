@@ -1,0 +1,16 @@
+$kind: http-request
+name: PUT /users/:id — Update User (via Gateway)
+url: "{{gatewayUrl}}/users/{{userId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Bhavika Sainani (Updated)",
+      "email": "bhavika.updated@daiict.ac.in",
+      "phone": "9876543211",
+      "role": "admin"
+    }
+order: 5000
