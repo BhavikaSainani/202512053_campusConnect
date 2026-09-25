@@ -1,0 +1,75 @@
+services:
+  # ─── API Gateway (Public Entry Point) ─────────────────────────────────────────
+  - type: web
+    name: campusconnect-api-gateway
+    runtime: node
+    rootDir: api-gateway
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: USER_SERVICE_URL
+        fromService:
+          type: web
+          name: campusconnect-user-service
+          property: host
+      - key: PRODUCT_SERVICE_URL
+        fromService:
+          type: web
+          name: campusconnect-product-service
+          property: host
+      - key: ORDER_SERVICE_URL
+        fromService:
+          type: web
+          name: campusconnect-order-service
+          property: host
+
+  # ─── User Microservice ────────────────────────────────────────────────────────
+  - type: web
+    name: campusconnect-user-service
+    runtime: node
+    rootDir: user-service
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: MONGO_URI
+        sync: false
+
+  # ─── Product Microservice ─────────────────────────────────────────────────────
+  - type: web
+    name: campusconnect-product-service
+    runtime: node
+    rootDir: product-service
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 3002
+      - key: MONGO_URI
+        sync: false
+
+  # ─── Order Microservice ───────────────────────────────────────────────────────
+  - type: web
+    name: campusconnect-order-service
+    runtime: node
+    rootDir: order-service
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 3003
+      - key: MONGO_URI
+        sync: false
+      - key: USER_SERVICE_URL
+        fromService:
+          type: web
+          name: campusconnect-user-service
+          property: host
+      - key: PRODUCT_SERVICE_URL
+        fromService:
+          type: web
+          name: campusconnect-product-service
+          property: host
