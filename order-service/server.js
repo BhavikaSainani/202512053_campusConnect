@@ -177,17 +177,18 @@ app.post('/orders', async (req, res) => {
 // ─── Connect to MongoDB, then start server ────────────────────────────────────
 const mongoUri = process.env.MONGO_URI || 'mongodb://mongodb:27017/campusconnect-orders';
 
+app.listen(port, () => {
+  console.log(`🚀  Order Service running at http://localhost:${port}`);
+  console.log(`📡  User Service URL:    ${USER_SERVICE_URL}`);
+  console.log(`📡  Product Service URL: ${PRODUCT_SERVICE_URL}`);
+});
+
 mongoose
   .connect(mongoUri)
   .then(() => {
-    console.log(`✅  Order Service connected to MongoDB (${mongoUri})`);
-    console.log(`📡  User Service URL:    ${USER_SERVICE_URL}`);
-    console.log(`📡  Product Service URL: ${PRODUCT_SERVICE_URL}`);
-    app.listen(port, () => {
-      console.log(`🚀  Order Service running at http://localhost:${port}`);
-    });
+    console.log(`✅  Order Service connected to MongoDB`);
   })
   .catch((err) => {
-    console.error('❌  MongoDB connection error:', err.message);
-    process.exit(1);
+    console.warn(`⚠️  MongoDB connection note: ${err.message}`);
   });
+

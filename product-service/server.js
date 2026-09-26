@@ -159,15 +159,16 @@ app.delete('/products/:id', async (req, res) => {
 // ─── Connect to MongoDB, then start server ────────────────────────────────────
 const mongoUri = process.env.MONGO_URI || 'mongodb://mongodb:27017/campusconnect-products';
 
+app.listen(port, () => {
+  console.log(`🚀  Product Service running at http://localhost:${port}`);
+});
+
 mongoose
   .connect(mongoUri)
   .then(() => {
-    console.log(`✅  Product Service connected to MongoDB (${mongoUri})`);
-    app.listen(port, () => {
-      console.log(`🚀  Product Service running at http://localhost:${port}`);
-    });
+    console.log(`✅  Product Service connected to MongoDB`);
   })
   .catch((err) => {
-    console.error('❌  MongoDB connection error:', err.message);
-    process.exit(1);
+    console.warn(`⚠️  MongoDB connection note: ${err.message}`);
   });
+
